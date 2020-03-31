@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="wechat_green">#4CAF50</color>
+    <color name="wechat_green1">#00C853</color>
+    <color name="wechat_green2">#62E167</color>
+    <color name="alipay_blue">#2186f3</color>
+    <color name="alipay_blue1">#1D7ADE</color>
+
+
+
+
+    <color name="pay_button_color">#ffffff</color>
+    <color name="pay_text_color">#424242</color>
+    <color name="pay_text_color1">#FFA000</color>
+    <color name="pay_text_color2">#ffffff</color>
+</resources>
