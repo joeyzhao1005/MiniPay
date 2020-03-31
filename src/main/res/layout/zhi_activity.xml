@@ -23,7 +23,7 @@
             android:layout_height="40dp"
             android:layout_marginLeft="20dp"
             android:background="?android:attr/selectableItemBackground"
-            android:padding="8dp"
+            android:padding="6dp"
             android:tint="@color/pay_text_color2"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_back" />
