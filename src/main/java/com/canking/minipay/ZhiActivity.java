@@ -49,6 +49,7 @@ public class ZhiActivity extends AppCompatActivity implements View.OnClickListen
         mQaImage = (ImageView) findViewById(R.id.qa_image_view);
         mTip = (TextView) findViewById(R.id.tip);
         mZhiBg.setOnClickListener(this);
+        findViewById(R.id.back).setOnClickListener(this);
     }
 
     private void initData() {
@@ -96,9 +97,10 @@ public class ZhiActivity extends AppCompatActivity implements View.OnClickListen
 
     /**
      * 转换ui
+     *
      * @param payWay 要转换的支付方式
      */
-    private void changeViews(int payWay){
+    private void changeViews(int payWay) {
         if (payWay == PayWay.ZHI_WAY_ALIPAY) {
             mZhiBg.setBackgroundResource(R.color.alipay_blue);
             mTitleTv.setText(R.string.ali_zhi_title);
@@ -120,6 +122,8 @@ public class ZhiActivity extends AppCompatActivity implements View.OnClickListen
             } else {
                 AliZhi.startAlipayClient(this, aliZhiKey);
             }
+        } else if (v.getId() == R.id.back) {
+            finish();
         } else if (v == mZhiBg) {
             mZhiWay = ++mZhiWay % 2;
             changeViews(mZhiWay);

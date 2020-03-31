@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/zhi_bg"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -8,24 +9,36 @@
     android:orientation="vertical"
     android:paddingBottom="16dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/qa_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:paddingBottom="14dp"
-        android:paddingTop="42dp">
+        android:layout_weight="0.2"
+        android:paddingTop="42dp"
+        android:paddingBottom="14dp">
+
+        <ImageButton
+            android:id="@+id/back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="5dp"
+            android:tint="@color/pay_text_color2"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_back" />
 
         <TextView
             android:id="@+id/tip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal|center"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginRight="60dp"
             android:gravity="center"
+            android:lines="1"
             android:text="@string/act_switch"
             android:textColor="@color/pay_text_color2"
             android:textSize="12dp" />
@@ -33,33 +46,35 @@
         <TextView
             android:id="@+id/zhi_title"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tip"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:layout_gravity="center_horizontal|center"
             android:layout_marginLeft="16dp"
+            android:layout_marginTop="40dp"
             android:layout_marginRight="16dp"
-            android:layout_weight="1"
             android:gravity="center"
             android:text="@string/wei_zhi_title"
             android:textColor="@color/pay_text_color2"
             android:textSize="32dp" />
 
+    </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/qa_image_view"
-            android:layout_width="156dp"
-            android:layout_height="156dp"
-            android:layout_gravity="center_horizontal|center"
-            android:clickable="false"
-            android:focusable="false" />
-
-    </LinearLayout>
-
+    <ImageView
+        android:id="@+id/qa_image_view"
+        android:layout_width="156dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.2"
+        android:clickable="false"
+        android:focusable="false"
+        android:scaleType="fitCenter" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="12dp"
-        android:layout_weight="2"
+        android:layout_weight="0.2"
         android:orientation="vertical">
 
         <TextView
@@ -68,8 +83,8 @@
             android:layout_height="0dp"
             android:layout_gravity="center_horizontal|center"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
             android:layout_marginTop="26dp"
+            android:layout_marginRight="16dp"
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/wei_zhi_tip"
