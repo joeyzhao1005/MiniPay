@@ -1,5 +1,6 @@
 package com.canking.minipay;
 
+import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -30,7 +31,7 @@ import static android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
 public class WeZhi {
     /*package*/
     static void startWeZhi(final Context c, final View view) {
-        File dir = c.getExternalFilesDir("pay_img");
+        File dir = c.getExternalFilesDir("pay");
         if (dir != null &&
                 !dir.exists() && !dir.mkdirs()) {
             return;
@@ -41,7 +42,7 @@ public class WeZhi {
             }
         }
 
-        String fileName = System.currentTimeMillis() + "weixin_qa.png";
+        String fileName = "wechat_pay_qrcode_" + System.currentTimeMillis() + ".png";
         final File file = new File(dir, fileName);
 //        if (!file.exists()) {
 //            file.delete();
@@ -126,6 +127,7 @@ public class WeZhi {
     }
 
     /*package*/
+    @SuppressLint("WrongConstant")
     private static void startWechat(Context c) {
         Intent intent = new Intent();
         intent.setComponent(new ComponentName("com.tencent.mm", "com.tencent.mm.ui.LauncherUI"));

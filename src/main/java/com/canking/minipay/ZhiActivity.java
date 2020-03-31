@@ -20,7 +20,7 @@ public class ZhiActivity extends AppCompatActivity implements View.OnClickListen
     private TextView mTitleTv, mSummeryTv, mTip;
     //weixin
     private int mZhiWay;
-    private ViewGroup mQaView, mZhiBg;
+    private ViewGroup mZhiBg;
     private ImageView mQaImage;
 
     /*******config***********/
@@ -44,7 +44,6 @@ public class ZhiActivity extends AppCompatActivity implements View.OnClickListen
     private void initView() {
         mTitleTv = (TextView) findViewById(R.id.zhi_title);
         mSummeryTv = (TextView) findViewById(R.id.zhi_summery);
-        mQaView = (ViewGroup) findViewById(R.id.qa_layout);
         mZhiBg = (ViewGroup) findViewById(R.id.zhi_bg);
         mQaImage = (ImageView) findViewById(R.id.qa_image_view);
         mTip = (TextView) findViewById(R.id.tip);
@@ -118,7 +117,7 @@ public class ZhiActivity extends AppCompatActivity implements View.OnClickListen
     public void onClick(View v) {
         if (v.getId() == R.id.zhi_btn) {
             if (mZhiWay == PayWay.ZHI_WAY_WECHAT) {
-                WeZhi.startWeZhi(this, mQaView);
+                WeZhi.startWeZhi(this, mQaImage);
             } else {
                 AliZhi.startAlipayClient(this, aliZhiKey);
             }
