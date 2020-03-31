@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.lang.ref.WeakReference;
 
 import static android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
 
@@ -28,7 +29,7 @@ import static android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
  * Created by changxing on 2017/9/8.
  */
 
-public class WeZhi {
+class WeZhi {
     /*package*/
     static void startWeZhi(final Context c, final View view) {
         File dir = c.getExternalFilesDir("pay");
@@ -36,9 +37,14 @@ public class WeZhi {
                 !dir.exists() && !dir.mkdirs()) {
             return;
         } else {
-            File[] f = dir.listFiles();
-            for (File file : f) {
-                file.delete();
+            File[] f = new File[0];
+            if (dir != null) {
+                f = dir.listFiles();
+            }
+            if (f != null) {
+                for (File file : f) {
+                    file.delete();
+                }
             }
         }
 
@@ -49,7 +55,7 @@ public class WeZhi {
 //        }
 
         new AsyncTask<Context, String, String>() {
-            Context context;
+            WeakReference<Context> context;
 
             @Override
             protected void onPreExecute() {
@@ -59,20 +65,23 @@ public class WeZhi {
 
             @Override
             protected String doInBackground(Context... c) {
-                context = c[0];
-                snapShot(context, file, view);
+                context = new WeakReference<>(c[0]);
+                snapShot(context.get(), file, view);
                 return null;
             }
 
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
-                startWechat(context);
+                startWechat(context.get());
             }
         }.execute(c);
     }
 
     private static void snapShot(Context context, @NonNull File file, @NonNull View view) {
+        if (context == null) {
+            return;
+        }
         Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas();
         canvas.setBitmap(bitmap);
@@ -94,9 +103,13 @@ public class WeZhi {
         if (isSuccess) {
             ContentResolver contentResolver = context.getContentResolver();
             ContentValues values = new ContentValues(4);
-            values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
+            }
             values.put(MediaStore.Images.Media.MIME_TYPE, "image/png");
-            values.put(MediaStore.Images.Media.ORIENTATION, 0);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                values.put(MediaStore.Images.Media.ORIENTATION, 0);
+            }
             values.put(MediaStore.Images.Media.TITLE, context.getString(R.string.donate));
             values.put(MediaStore.Images.Media.DESCRIPTION, context.getString(R.string.donate_qa));
             values.put(MediaStore.Images.Media.DATA, file.getAbsolutePath());
@@ -108,14 +121,20 @@ public class WeZhi {
                     context.grantUriPermission(context.getPackageName(), MediaStore.Images.Media.EXTERNAL_CONTENT_URI, FLAG_GRANT_WRITE_URI_PERMISSION);
                 }
                 url = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values); //其实质是返回 Image.Meida.DATA中图片路径path的转变而成的uri
-                OutputStream imageOut = contentResolver.openOutputStream(url);
+                OutputStream imageOut = null;
+                if (url != null) {
+                    imageOut = contentResolver.openOutputStream(url);
+                }
                 try {
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, imageOut);
                 } finally {
                     MiniPayUtils.closeIO(imageOut);
                 }
 
-                long id = ContentUris.parseId(url);
+                long id = 0;
+                if (url != null) {
+                    id = ContentUris.parseId(url);
+                }
                 MediaStore.Images.Thumbnails.getThumbnail(contentResolver, id, MediaStore.Images.Thumbnails.MINI_KIND, null);//获取缩略图
 
             } catch (Exception e) {
@@ -129,6 +148,9 @@ public class WeZhi {
     /*package*/
     @SuppressLint("WrongConstant")
     private static void startWechat(Context c) {
+        if (c == null) {
+            return;
+        }
         Intent intent = new Intent();
         intent.setComponent(new ComponentName("com.tencent.mm", "com.tencent.mm.ui.LauncherUI"));
         intent.putExtra("LauncherUI.From.Scaner.Shortcut", true);
