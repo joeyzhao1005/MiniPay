@@ -1,5 +1,9 @@
 apply plugin: 'com.android.library'
 
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 29
 
@@ -36,5 +40,7 @@ dependencies {
 //    //协程两者
 //    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines"
 //    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines"
+
+    implementation project(':ProjectBase')
 
 }
